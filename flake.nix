@@ -75,17 +75,11 @@
         );
       mkDevShell =
         path:
-        let
-          config = {
-            tinymist = true;
-          }
-          // (import "${path}/typst.nix" pkgs);
-        in
         pkgs.mkShellNoCC {
           packages = with pkgs; [
             nixd
             nixfmt
-            (mkTypstWrapper config)
+            (mkTypstWrapper ({ tinymist = true; } // (import "${path}/typst.nix" pkgs)))
           ];
         };
     in
@@ -97,6 +91,7 @@
             nixfmt
           ];
         };
-      };
+      }
+      // (lib.mapAttrsRecursive (_: mkDevShell) (import ./workspaces.nix));
     };
 }
