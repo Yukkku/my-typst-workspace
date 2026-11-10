@@ -1,2 +1,5 @@
 {
+  googology = {
+    recocf = ./googology/recocf;
+  };
 }
